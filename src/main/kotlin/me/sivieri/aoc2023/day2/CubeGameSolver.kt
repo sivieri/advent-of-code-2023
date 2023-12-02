@@ -14,4 +14,6 @@ class CubeGameSolver(input: List<String>) {
         }
         .sumOf { it.id }
 
+    fun powerSum(): Long = games.sumOf { it.power() }
+
 }

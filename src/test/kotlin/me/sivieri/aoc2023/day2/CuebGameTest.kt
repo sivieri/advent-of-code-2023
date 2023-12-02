@@ -21,4 +21,11 @@ class CuebGameTest {
         assertThat(cubeGame, `is`(expected))
     }
 
+    @Test
+    fun `power of a set`() {
+        val line = "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"
+        val power = CuebGame.parse(line).power()
+        assertThat(power, `is`(630))
+    }
+
 }
