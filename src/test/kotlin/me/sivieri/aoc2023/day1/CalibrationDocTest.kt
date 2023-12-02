@@ -7,7 +7,7 @@ import org.junit.Test
 class CalibrationDocTest {
 
     @Test
-    fun  `part 1 example`() {
+    fun `part 1 example`() {
         val input = """
             1abc2
             pqr3stu8vwx
@@ -20,7 +20,7 @@ class CalibrationDocTest {
     }
 
     @Test
-    fun  `part 2 example`() {
+    fun `part 2 example`() {
         val input = """
             two1nine
             eightwothree
