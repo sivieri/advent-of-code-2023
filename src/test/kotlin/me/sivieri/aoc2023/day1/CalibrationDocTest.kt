@@ -19,4 +19,20 @@ class CalibrationDocTest {
         assertThat(result, `is`(142))
     }
 
+    @Test
+    fun  `part 2 example`() {
+        val input = """
+            two1nine
+            eightwothree
+            abcone2threexyz
+            xtwone3four
+            4nineeightseven2
+            zoneight234
+            7pqrstsixteen
+        """.trimIndent().split("\n")
+        val calibrationDoc = CalibrationDoc()
+        val result = calibrationDoc.getCalibrationTotalWithLetters(input)
+        assertThat(result, `is`(281))
+    }
+
 }
