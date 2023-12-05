@@ -3,8 +3,11 @@ package me.sivieri.aoc2023.day4
 data class Scratchcard(
     val id: Int,
     val winningNumbers: Set<Int>,
-    val cardNumbers: Set<Int>
+    val cardNumbers: Set<Int>,
+    var instances: Int = 1
 ) {
+
+    fun score(): Int = winningNumbers.intersect(cardNumbers).size
 
     fun points(): Int = winningNumbers.intersect(cardNumbers).fold(0) { acc, _ ->
         if (acc == 0) 1
