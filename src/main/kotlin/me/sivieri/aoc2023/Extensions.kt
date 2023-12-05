@@ -112,3 +112,11 @@ internal fun <T> ArrayDeque<T>.removeFirstOrNull(): T? =
     catch (e: NoSuchElementException) {
         null
     }
+
+internal fun <T, R> Iterable<T>.firstNotNullOrNull(predicate: (T) -> R?): R? {
+    for (element in this) {
+        val value = predicate(element)
+        if (value != null) return value
+    }
+    return null
+}
