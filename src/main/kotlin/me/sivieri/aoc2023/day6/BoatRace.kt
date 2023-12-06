@@ -1,8 +1,8 @@
 package me.sivieri.aoc2023.day6
 
 data class BoatRace(
-    val duration: Int,
-    val maxDistance: Int
+    val duration: Long,
+    val maxDistance: Long
 ) {
 
     fun countWaysToWin(): Int = (1 until duration)

@@ -17,4 +17,15 @@ class BoatRacerTest {
         assertThat(ways, `is`(288))
     }
 
+    @Test
+    fun `part 2 example`() {
+        val input = """
+            Time:      7  15   30
+            Distance:  9  40  200
+        """.trimIndent()
+        val racer = BoatRacer(input)
+        val ways = racer.countSingleRace()
+        assertThat(ways, `is`(71503))
+    }
+
 }
