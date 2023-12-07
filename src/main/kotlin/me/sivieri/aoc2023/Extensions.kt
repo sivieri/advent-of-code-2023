@@ -120,3 +120,5 @@ internal fun <T, R> Iterable<T>.firstNotNullOrNull(predicate: (T) -> R?): R? {
     }
     return null
 }
+
+internal fun <T> List<T>.replace(something: T, other: T): List<T> = this.map { if (it == something) other else it }

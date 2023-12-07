@@ -1,11 +1,25 @@
 package me.sivieri.aoc2023.day7
 
+import me.sivieri.aoc2023.replace
+
 data class CardHand(
     val cards: List<Char>,
     val bid: Int
 ): Comparable<CardHand> {
 
     fun handType(): CardHandType {
+        return if (JOKER in cards) {
+            val c = CARD_ORDER.filterNot { it == JOKER }.reversed().maxBy { sub ->
+                noJokerHandType(cards.replace(JOKER, sub)).rank
+            }
+            noJokerHandType(cards.replace(JOKER, c))
+        }
+        else {
+            noJokerHandType(this.cards)
+        }
+    }
+
+    private fun noJokerHandType(cards: List<Char>): CardHandType {
         val grouped = cards.groupingBy { it }.eachCount()
         val counts = grouped.values
         return when {
@@ -40,7 +54,8 @@ data class CardHand(
     }
 
     companion object {
-        private val CARD_ORDER = listOf('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
+        private const val JOKER = 'J'
+        private val CARD_ORDER = listOf(JOKER, '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
 
         fun parse(line: String): CardHand {
             val (cards, bid) = line.split(" ")

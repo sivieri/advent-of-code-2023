@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day7
 
-enum class CardHandType(private val rank: Int) {
+enum class CardHandType(val rank: Int) {
 
     FIVE_OF_A_KIND(7),
     FOUR_OF_A_KIND(6),

@@ -80,7 +80,7 @@ class CardHandTest {
 
     @Test
     fun `same type, smaller card`() {
-        val card1 = CardHand("J126J".toList(), 0)
+        val card1 = CardHand("K126K".toList(), 0)
         val card2 = CardHand("A23A4".toList(), 0)
         assertTrue(card1 < card2)
     }
@@ -90,6 +90,40 @@ class CardHandTest {
         val card1 = CardHand("AAAAA".toList(), 0)
         val card2 = CardHand("AAAAA".toList(), 0)
         assertThat(card1.compareTo(card2), `is`(0))
+    }
+
+    @Test
+    fun `joker test 1`() {
+        val card = CardHand("J345A".toList(), 3)
+        assertThat(card.handType(), `is`(CardHandType.ONE_PAIR))
+    }
+
+    @Test
+    fun `joker test 2`() {
+        val card = CardHand("JJJJJ".toList(), 29)
+        assertThat(card.handType(), `is`(CardHandType.FIVE_OF_A_KIND))
+    }
+
+    @Test
+    fun `joker test 3`() {
+        val card = CardHand("JJJJ2".toList(), 31)
+        assertThat(card.handType(), `is`(CardHandType.FIVE_OF_A_KIND))
+    }
+
+    @Test
+    fun `joker test 4`() {
+        val card = CardHand("2JJJJ".toList(), 41)
+        assertThat(card.handType(), `is`(CardHandType.FIVE_OF_A_KIND))
+    }
+
+    @Test
+    fun `jokers order`() {
+        val bids = listOf(
+            CardHand("JJJJJ".toList(), 29),
+            CardHand("2JJJJ".toList(), 41),
+            CardHand("JJJJ2".toList(), 31),
+        ).sortedWith { o1, o2 -> o1.compareTo(o2) }.map { it.bid }
+        assertThat(bids, `is`(listOf(29, 31, 41)))
     }
 
 }
