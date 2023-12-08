@@ -1,5 +1,7 @@
 package me.sivieri.aoc2023.day8
 
+import me.sivieri.aoc2023.Math.lcm
+
 class DesertNavigator(data: String) {
 
     private val directions: Array<Direction>
@@ -32,11 +34,13 @@ class DesertNavigator(data: String) {
         }
     }
 
-    fun countSteps(): Int {
+    fun countSteps(): Int = countSteps(this.root!!) { it == END }
+
+    private fun countSteps(root: MapInstruction, endFunction: (String) -> Boolean): Int {
         var i = 0
         var result = 0
-        var current = root!!
-        while (current.value != END) {
+        var current = root
+        while (!endFunction(current.value)) {
             current = if (directions[i] == Direction.LEFT) current.left!!
             else current.right!!
             i = (i + 1) % directions.size
@@ -46,26 +50,13 @@ class DesertNavigator(data: String) {
     }
 
     fun countStepsInParallel(): Long {
-        var currents = nodes
+        val currents = nodes
             .keys
             .filter { it[2] == SINGLE_START }
             .map { nodes[it]!! }
-        var i = 0
-        var result = 0L
-        while (!endCondition(currents)) {
-            if (result % 100_000_000 == 0L) println ("Steps: $result")
-            val newCurrents = currents.map { current ->
-                if (directions[i] == Direction.LEFT) current.left!!
-                else current.right!!
-            }
-            currents = newCurrents
-            i = (i + 1) % directions.size
-            result++
-        }
-        return result
+            .map { countSteps(it) { it[2] == SINGLE_END }.toLong() }
+        return currents.lcm()
     }
-
-    private fun endCondition(currents: List<MapInstruction>): Boolean = currents.all { it.value[2] == SINGLE_END }
 
     companion object {
         private const val START = "AAA"
