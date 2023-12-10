@@ -1,6 +1,10 @@
 package me.sivieri.aoc2023.day10
 
 import me.sivieri.aoc2023.common.Coordinate2D
+import org.locationtech.jts.geom.Coordinate
+import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.geom.Point
+import org.locationtech.jts.geom.Polygon
 
 class PipeMaze(data: String, startSymbol: Char) {
 
@@ -34,6 +38,23 @@ class PipeMaze(data: String, startSymbol: Char) {
         return loop.size / 2
     }
 
+    fun countInternalSpaces(): Int {
+        val loop = findLoop()
+        val transformed = maze.map { (c, p) ->
+            if (c in loop) Pair(c, IN_LOOP)
+            else if (p == PipeType.EMPTY) Pair(c, p.symbol)
+            else Pair(c, NOT_LOOP)
+        }.toMap()
+        println(mazeToString(transformed, maxX, maxY))
+        val polygon = loop.toPolygon()
+        val contained = (0 until maxY).sumOf { y ->
+            (0 until maxX)
+                .filter { x -> Coordinate2D(x, y) !in loop }
+                .count { x ->  polygon.contains(geometryFactory.createPoint(Coordinate(x.toDouble(), y.toDouble()))) }
+        }
+        return contained
+    }
+
     private fun findLoop(): List<Coordinate2D> {
         val loop = mutableListOf(start)
         var direction = maze[start]!!.destinations().keys.first()
@@ -49,16 +70,32 @@ class PipeMaze(data: String, startSymbol: Char) {
 
     companion object {
         private const val START = 'S'
+        private const val IN_LOOP = 'X'
+        private const val NOT_LOOP = 'o'
+        private val geometryFactory = GeometryFactory()
 
         private fun findNextCoordinate(
             coordinate: Coordinate2D,
-            direction: AnimalDirection
+            direction: MazeDirection
         ): Coordinate2D = when (direction) {
-            AnimalDirection.UP -> Coordinate2D(coordinate.x, coordinate.y - 1)
-            AnimalDirection.DOWN -> Coordinate2D(coordinate.x, coordinate.y + 1)
-            AnimalDirection.LEFT -> Coordinate2D(coordinate.x - 1, coordinate.y)
-            AnimalDirection.RIGHT -> Coordinate2D(coordinate.x + 1, coordinate.y)
+            MazeDirection.UP -> Coordinate2D(coordinate.x, coordinate.y - 1)
+            MazeDirection.DOWN -> Coordinate2D(coordinate.x, coordinate.y + 1)
+            MazeDirection.LEFT -> Coordinate2D(coordinate.x - 1, coordinate.y)
+            MazeDirection.RIGHT -> Coordinate2D(coordinate.x + 1, coordinate.y)
         }
+
+        private fun mazeToString(
+            maze: Map<Coordinate2D, Char>,
+            maxX: Int,
+            maxY: Int
+        ): String = (0 until maxY).joinToString("\n") { y ->
+            (0 until maxX).joinToString("") { x ->
+                maze[Coordinate2D(x, y)]!!.toString()
+            }
+        }
+
+        internal fun List<Coordinate2D>.toPolygon(): Polygon = GeometryFactory()
+            .createPolygon(this.plus(this.first()).map { Coordinate(it.x.toDouble(), it.y.toDouble()) }.toTypedArray())
     }
 
 }

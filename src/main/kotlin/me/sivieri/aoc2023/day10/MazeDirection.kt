@@ -1,12 +1,12 @@
 package me.sivieri.aoc2023.day10
 
-enum class AnimalDirection {
+enum class MazeDirection {
     UP,
     DOWN,
     LEFT,
     RIGHT;
 
-    fun opposite(): AnimalDirection = when (this) {
+    fun opposite(): MazeDirection = when (this) {
         UP -> DOWN
         DOWN -> UP
         LEFT -> RIGHT

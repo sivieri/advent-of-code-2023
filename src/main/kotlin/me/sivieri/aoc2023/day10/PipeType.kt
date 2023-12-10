@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day10
 
-import me.sivieri.aoc2023.day10.AnimalDirection.*
+import me.sivieri.aoc2023.day10.MazeDirection.*
 import java.lang.IllegalArgumentException
 
 enum class PipeType(val symbol: Char) {
@@ -13,7 +13,7 @@ enum class PipeType(val symbol: Char) {
     EMPTY('.');
 
     // This would be a class value, but we have to avoid self references in the constructor
-    fun destinations(): Map<AnimalDirection, List<PipeType>> = when (this) {
+    fun destinations(): Map<MazeDirection, List<PipeType>> = when (this) {
         VERTICAL -> mapOf(
             DOWN to listOf(VERTICAL, BEND_UL, BEND_UR),
             UP to listOf(VERTICAL, BEND_DL, BEND_DR)
@@ -41,7 +41,7 @@ enum class PipeType(val symbol: Char) {
         EMPTY -> emptyMap()
     }
 
-    fun nextDirection(from: AnimalDirection): AnimalDirection = when {
+    fun nextDirection(from: MazeDirection): MazeDirection = when {
         this == VERTICAL && from == UP -> DOWN
         this == VERTICAL && from == DOWN -> UP
         this == HORIZONTAL && from == LEFT -> RIGHT
