@@ -122,3 +122,5 @@ internal fun <T, R> Iterable<T>.firstNotNullOrNull(predicate: (T) -> R?): R? {
 }
 
 internal fun <T> List<T>.replace(something: T, other: T): List<T> = this.map { if (it == something) other else it }
+
+internal fun <T: Comparable<T>> Pair<T, T>.sort(): Pair<T, T> = if (this.first <= this.second) this.copy() else Pair(this.second, this.first)
