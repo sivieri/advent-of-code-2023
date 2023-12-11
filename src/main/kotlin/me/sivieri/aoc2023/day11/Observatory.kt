@@ -3,11 +3,11 @@ package me.sivieri.aoc2023.day11
 import me.sivieri.aoc2023.combinations
 import me.sivieri.aoc2023.sort
 
-class Observatory(data: String) {
+class Observatory(data: String, weight: Int) {
 
-    private val space = Space.fromString(data)
+    private val space = Space.fromString(data, weight)
 
-    fun sumShortestPaths(): Int {
+    fun sumShortestPaths(): Long {
         val combinations = space.galaxies
             .combinations()
             .map { it.sort() }

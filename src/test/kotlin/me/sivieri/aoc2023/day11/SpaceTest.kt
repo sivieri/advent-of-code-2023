@@ -20,7 +20,7 @@ class SpaceTest {
             .......#..
             #...#.....
         """.trimIndent()
-        val space = Space.fromString(input)
+        val space = Space.fromString(input, weight = 2)
         val five = space.galaxies.find { it.index == 5 }!!
         val nine = space.galaxies.find { it.index == 9 }!!
         val length = space.shortestPathLength(five, nine)
@@ -41,32 +41,11 @@ class SpaceTest {
             .......#..
             #...#.....
         """.trimIndent()
-        val space = Space.fromString(input)
+        val space = Space.fromString(input, weight = 2)
         val one = space.galaxies.find { it.index == 1 }!!
         val seven = space.galaxies.find { it.index == 7 }!!
         val length = space.shortestPathLength(one, seven)
         assertThat(length, `is`(15))
-    }
-
-    @Test
-    fun `sample path 4`() {
-        val input = """
-            ...#......
-            .......#..
-            #.........
-            ..........
-            ......#...
-            .#........
-            .........#
-            ..........
-            .......#..
-            #...#.....
-        """.trimIndent()
-        val space = Space.fromString(input)
-        val three = space.galaxies.find { it.index == 3 }!!
-        val six = space.galaxies.find { it.index == 6 }!!
-        val length = space.shortestPathLength(three, six)
-        assertThat(length, `is`(17))
     }
 
     @Test
@@ -83,7 +62,28 @@ class SpaceTest {
             .......#..
             #...#.....
         """.trimIndent()
-        val space = Space.fromString(input)
+        val space = Space.fromString(input, weight = 2)
+        val three = space.galaxies.find { it.index == 3 }!!
+        val six = space.galaxies.find { it.index == 6 }!!
+        val length = space.shortestPathLength(three, six)
+        assertThat(length, `is`(17))
+    }
+
+    @Test
+    fun `sample path 4`() {
+        val input = """
+            ...#......
+            .......#..
+            #.........
+            ..........
+            ......#...
+            .#........
+            .........#
+            ..........
+            .......#..
+            #...#.....
+        """.trimIndent()
+        val space = Space.fromString(input, weight = 2)
         val eight = space.galaxies.find { it.index == 8 }!!
         val nine = space.galaxies.find { it.index == 9 }!!
         val length = space.shortestPathLength(eight, nine)
