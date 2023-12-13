@@ -2,6 +2,7 @@ package me.sivieri.aoc2023.day12
 
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
+import org.junit.Ignore
 import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -74,6 +75,14 @@ class SpringStatusTest {
         val springStatus = SpringStatus("??#??.#?...".toList(), listOf(1, 1))
         val arrangements = springStatus.findArrangements()
         assertThat(arrangements, `is`(1))
+    }
+
+    @Test
+    @Ignore
+    fun `arrangements example extended`() {
+        val springStatus = SpringStatus(".??..??...?##.".toList(), listOf(1, 1, 3))
+        val arrangements = springStatus.findArrangements(extended = true)
+        assertThat(arrangements, `is`(16384))
     }
 
 }
