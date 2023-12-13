@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day5
 
-import me.sivieri.aoc2023.firstNotNullOrNull
+import me.sivieri.aoc2023.common.firstNotNullOrNull
 
 class FoodProductionAlmanacProcessor(data: String) {
 

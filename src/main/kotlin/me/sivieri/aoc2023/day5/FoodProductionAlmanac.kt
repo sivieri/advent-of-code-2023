@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day5
 
-import me.sivieri.aoc2023.tail
+import me.sivieri.aoc2023.common.tail
 
 data class FoodProductionAlmanac(
     val seeds: List<Long>,

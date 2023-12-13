@@ -1,8 +1,8 @@
 package me.sivieri.aoc2023.day12
 
-import me.sivieri.aoc2023.KCombinations
-import me.sivieri.aoc2023.repeat
-import me.sivieri.aoc2023.toIntList
+import me.sivieri.aoc2023.common.KCombinations
+import me.sivieri.aoc2023.common.repeat
+import me.sivieri.aoc2023.common.toIntList
 
 data class SpringStatus(
     val positions: List<Char>,

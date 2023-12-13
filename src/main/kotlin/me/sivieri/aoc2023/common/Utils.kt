@@ -1,4 +1,4 @@
-package me.sivieri.aoc2023
+package me.sivieri.aoc2023.common
 
 import java.nio.file.Files
 import java.nio.file.Path

@@ -1,5 +1,8 @@
 package me.sivieri.aoc2023
 
+import me.sivieri.aoc2023.common.cartesianProduct
+import me.sivieri.aoc2023.common.halve
+import me.sivieri.aoc2023.common.permutations
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.containsInAnyOrder
 import org.hamcrest.Matchers.`is`

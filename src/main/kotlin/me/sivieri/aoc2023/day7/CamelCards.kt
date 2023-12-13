@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day7
 
-import me.sivieri.aoc2023.zipWithIndex
+import me.sivieri.aoc2023.common.zipWithIndex
 
 class CamelCards {
 

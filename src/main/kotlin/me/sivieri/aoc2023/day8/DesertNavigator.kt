@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day8
 
-import me.sivieri.aoc2023.Math.lcm
+import me.sivieri.aoc2023.common.Math.lcm
 
 class DesertNavigator(data: String) {
 

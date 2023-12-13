@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day2
 
-import me.sivieri.aoc2023.multiplyBy
+import me.sivieri.aoc2023.common.multiplyBy
 
 data class CuebGame(
     val id: Int,

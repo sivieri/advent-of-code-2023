@@ -1,7 +1,7 @@
 package me.sivieri.aoc2023.day11
 
-import me.sivieri.aoc2023.twoCombinations
-import me.sivieri.aoc2023.sort
+import me.sivieri.aoc2023.common.twoCombinations
+import me.sivieri.aoc2023.common.sort
 
 class Observatory(data: String, weight: Int) {
 

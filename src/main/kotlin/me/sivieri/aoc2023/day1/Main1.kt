@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day1
 
-import me.sivieri.aoc2023.Utils
+import me.sivieri.aoc2023.common.Utils
 
 object Main1 {
 

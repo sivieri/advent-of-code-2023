@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day7
 
-import me.sivieri.aoc2023.replace
+import me.sivieri.aoc2023.common.replace
 
 data class CardHand(
     val cards: List<Char>,

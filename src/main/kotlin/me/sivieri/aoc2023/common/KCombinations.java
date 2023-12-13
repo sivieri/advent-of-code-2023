@@ -1,4 +1,4 @@
-package me.sivieri.aoc2023;
+package me.sivieri.aoc2023.common;
 
 import java.util.*;
 
