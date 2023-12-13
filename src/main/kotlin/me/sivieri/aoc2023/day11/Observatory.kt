@@ -1,6 +1,6 @@
 package me.sivieri.aoc2023.day11
 
-import me.sivieri.aoc2023.combinations
+import me.sivieri.aoc2023.twoCombinations
 import me.sivieri.aoc2023.sort
 
 class Observatory(data: String, weight: Int) {
@@ -9,7 +9,7 @@ class Observatory(data: String, weight: Int) {
 
     fun sumShortestPaths(): Long {
         val combinations = space.galaxies
-            .combinations()
+            .twoCombinations()
             .map { it.sort() }
             .distinct()
         println("Found ${combinations.size} pairs")

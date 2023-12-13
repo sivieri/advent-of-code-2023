@@ -4,10 +4,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.jgrapht.Graph
-import java.lang.IllegalArgumentException
-import java.util.ArrayDeque
+import java.util.*
 import java.util.Collections.swap
-import java.util.NoSuchElementException
 
 internal fun String.toIntList(): List<Int> = this.split(",").map { it.toInt() }
 
@@ -41,7 +39,7 @@ internal fun <A, B> cartesianProduct(a: List<A>, b: List<B>): List<Pair<A, B>> =
 internal fun <A, B> Collection<A>.crossProduct(other: Collection<B>): List<Pair<A, B>> =
     this.flatMap { aElement -> other.map { bElement -> aElement to bElement } }
 
-internal fun <T> List<T>.combinations(): List<Pair<T, T>> =
+internal fun <T> List<T>.twoCombinations(): List<Pair<T, T>> =
     (0 until this.size).flatMap { i ->
         (i + 1 until this.size).map { j ->  Pair(this[i], this[j]) }
     }
