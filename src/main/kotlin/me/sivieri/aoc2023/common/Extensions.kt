@@ -130,3 +130,5 @@ internal fun String.repeat(n: Int, separator: Char) = (1..n).fold(this) { acc, _
 internal fun <T> List<T>.repeat(n: Int): List<T> = (1..n).fold(this) { acc, _ ->
     acc + this
 }
+
+internal fun Pair<Int, Int>.sum() = this.first + this.second

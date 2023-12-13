@@ -30,4 +30,28 @@ class PatternInterpreterTest {
         assertThat(result, `is`(405))
     }
 
+    @Test
+    fun `part 2 example`() {
+        val input = """
+            #.##..##.
+            ..#.##.#.
+            ##......#
+            ##......#
+            ..#.##.#.
+            ..##..##.
+            #.#.##.#.
+
+            #...##..#
+            #....#..#
+            ..##..###
+            #####.##.
+            #####.##.
+            ..##..###
+            #....#..#
+        """.trimIndent()
+        val patternInterpreter = PatternInterpreter(input)
+        val result = patternInterpreter.findReflectionPatternsWithChanges()
+        assertThat(result, `is`(400))
+    }
+
 }
