@@ -5,15 +5,15 @@ class PatternInterpreter(data: String) {
     private val patterns = data.split("\n\n").map { Pattern(it) }
 
     fun findReflectionPatterns(): Int = patterns.sumOf {
-        val (rows, columns) = it.columnsAndRowWhenReflection()
-        rows + 100 * columns
+        val (col, row) = it.columnsAndRowWhenReflection()
+        (col?.value ?: 0) + 100 * (row?.value ?: 0)
     }
 
     fun findReflectionPatternsWithChanges(): Int = patterns.sumOf {
-        val (value, position) = it.columnsAndRowWhenReflectionWithChanges()
-        when (position) {
-            ReflectionPosition.ROW -> value
-            ReflectionPosition.COLUMN -> value * 100
+        val r = it.columnsAndRowWhenReflectionWithChanges()
+        when (r.position) {
+            ReflectionPosition.ROW -> 100 * r.value
+            ReflectionPosition.COLUMN -> r.value
             ReflectionPosition.NONE -> 0
         }
     }

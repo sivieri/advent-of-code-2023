@@ -1,6 +1,5 @@
 package me.sivieri.aoc2023.day13
 
-import me.sivieri.aoc2023.common.sum
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.Test
@@ -19,7 +18,7 @@ class PatternTest {
             #.#.##.#.
         """.trimIndent()
         val pattern = Pattern(input)
-        assertThat(pattern.columnsLeftOfReflection().first, `is`(5))
+        assertThat(pattern.columnsLeftOfReflection().first().value, `is`(5))
     }
 
     @Test
@@ -34,7 +33,7 @@ class PatternTest {
             #....#..#
         """.trimIndent()
         val pattern = Pattern(input)
-        assertThat(pattern.rowsAboveReflection().first, `is`(4))
+        assertThat(pattern.rowsAboveReflection().first().value, `is`(4))
     }
 
     @Test
@@ -49,7 +48,7 @@ class PatternTest {
             #.#.##.#.
         """.trimIndent()
         val pattern = Pattern(input)
-        assertThat(pattern.rowsAboveReflection().first, `is`(3))
+        assertThat(pattern.rowsAboveReflection().first().value, `is`(3))
     }
 
     @Test
@@ -82,6 +81,24 @@ class PatternTest {
         val pattern = Pattern(input)
         val result = pattern.columnsAndRowWhenReflectionWithChanges().value
         assertThat(result, `is`(1))
+    }
+
+    @Test
+    fun `example from input 1`() {
+        val input = """
+            .#.##.#.##..###
+            ...##...#######
+            #.####.#.#.###.
+            #..##..##..#...
+            ###..###....###
+            .##..##..#.#...
+            .#....#..######
+            #..##..########
+            ########.#..#..
+        """.trimIndent()
+        val pattern = Pattern(input)
+        val result = pattern.columnsAndRowWhenReflectionWithChanges().value
+        assertThat(result, `is`(14))
     }
 
 }
