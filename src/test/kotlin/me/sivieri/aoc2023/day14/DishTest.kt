@@ -25,4 +25,23 @@ class DishTest {
         assertThat(result, `is`(136))
     }
 
+    @Test
+    fun `part 2 example`() {
+        val input = """
+            O....#....
+            O.OO#....#
+            .....##...
+            OO.#O....O
+            .O.....O#.
+            O.#..O.#.#
+            ..O..#O..O
+            .......O..
+            #....###..
+            #OO..#....
+        """.trimIndent()
+        val dish = Dish(input)
+        val result = dish.calculateLoad(1_000_000_000)
+        assertThat(result, `is`(64))
+    }
+
 }
