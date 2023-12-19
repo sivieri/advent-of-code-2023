@@ -25,4 +25,23 @@ class BeamContraptionTest {
         assertThat(result, `is`(46))
     }
 
+    @Test
+    fun `part 2 example`() {
+        val input = """
+            .|...\....
+            |.-.\.....
+            .....|-...
+            ........|.
+            ..........
+            .........\
+            ..../.\\..
+            .-.-/..|..
+            .|....-|.\
+            ..//.|....
+        """.trimIndent()
+        val contraption = BeamContraption(input)
+        val result = contraption.countMaxEnergizedCells()
+        assertThat(result, `is`(51))
+    }
+
 }

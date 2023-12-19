@@ -1,6 +1,7 @@
 package me.sivieri.aoc2023.day16
 
 import me.sivieri.aoc2023.common.Coordinate2D
+import java.lang.IllegalArgumentException
 
 class BeamContraption(input: String) {
 
@@ -12,9 +13,28 @@ class BeamContraption(input: String) {
     private val maxX = matrix[0].size
     private val maxY = matrix.size
 
-    fun countEnergizedCells(): Int {
+    fun countMaxEnergizedCells(): Int = (0 until maxX)
+        .flatMap { x ->
+            (0 until maxY).mapNotNull { y ->
+                if (x == 0 || x == (maxX - 1) || y == 0 || y == (maxY - 1)) Coordinate2D(x, y)
+                else null
+            }
+        }
+        .maxOf { c ->
+            val direction = when {
+                c.x == 0 -> BeamDirection.RIGHT
+                c.x == maxX - 1 -> BeamDirection.LEFT
+                c.y == 0 -> BeamDirection.DOWN
+                c.y == maxY - 1 -> BeamDirection.UP
+                else -> throw IllegalArgumentException("Impossible coordinate $c")
+            }
+            println("Trying coordinate $c")
+            countEnergizedCells(Beam(c, direction))
+        }
+
+    fun countEnergizedCells(startingPoint: Beam = Beam(Coordinate2D(0, 0), BeamDirection.RIGHT)): Int {
         val energized = MutableSetWithStability<Coordinate2D>(maxX * maxY)
-        val queue = ArrayDeque(listOf(Beam(Coordinate2D(0, 0), BeamDirection.RIGHT)))
+        val queue = ArrayDeque(listOf(startingPoint))
         while (queue.isNotEmpty()) {
             val beam = queue.removeFirst()
             var c: Coordinate2D? = beam.position
