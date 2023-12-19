@@ -2,9 +2,8 @@ package me.sivieri.aoc2023.common
 
 import org.jgrapht.GraphPath
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
-import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
-import java.util.PriorityQueue
+import java.util.*
 
 interface VertexWithWeight {
     val weight: Int
@@ -18,14 +17,14 @@ private data class VertexCumulativeWeight<T, C>(
     override fun compareTo(other: VertexCumulativeWeight<T, C>): Int = this.weight - other.weight
 }
 
-class DijkstraShortestPathWithConstraint<V: VertexWithWeight, C>(
-    private val graph: SimpleGraph<V, DefaultEdge>,
-    private val constraintCalculator: (source: V, sink: V, edge: DefaultEdge, cost: C) -> C,
+class DijkstraShortestPathWithConstraint<V: VertexWithWeight, E, C>(
+    private val graph: SimpleGraph<V, E>,
+    private val constraintCalculator: (source: V, sink: V, edge: E, cost: C) -> C,
     private val constraintCheck: (C) -> Boolean,
     private val initialCost: C
-): ShortestPathAlgorithm<V, DefaultEdge> {
-    override fun getPath(source: V, sink: V): GraphPath<V, DefaultEdge> = throw NotImplementedError("Unavailable")
-    override fun getPaths(source: V): ShortestPathAlgorithm.SingleSourcePaths<V, DefaultEdge> = throw NotImplementedError("Unavailable")
+): ShortestPathAlgorithm<V, E> {
+    override fun getPath(source: V, sink: V): GraphPath<V, E> = throw NotImplementedError("Unavailable")
+    override fun getPaths(source: V): ShortestPathAlgorithm.SingleSourcePaths<V, E> = throw NotImplementedError("Unavailable")
 
     override fun getPathWeight(source: V, sink: V): Double {
         val visited = mutableMapOf<V, Boolean>()
