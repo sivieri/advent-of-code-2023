@@ -3,6 +3,7 @@ package me.sivieri.aoc2023.day17
 import me.sivieri.aoc2023.common.Coordinate2D
 import me.sivieri.aoc2023.common.Direction
 import me.sivieri.aoc2023.day17.graph.DirectionalEdge
+import me.sivieri.aoc2023.day17.graph.NextVertex
 import me.sivieri.aoc2023.day17.graph.ShortestPathWithConstraint
 import org.jgrapht.graph.SimpleDirectedGraph
 
@@ -52,7 +53,62 @@ class CityMap(input: String) {
     }
 
     fun calculateMinHeatLoss(): Int {
-        val spc = ShortestPathWithConstraint(graph)
+        val spc = ShortestPathWithConstraint(graph) { vertex, enteringDirection ->
+            enteringDirection
+                .orthogonal()
+                .flatMap { d ->
+                    val first = graph
+                        .outgoingEdgesOf(vertex)
+                        .filter { it.direction == d }
+                        .map { graph.getEdgeTarget(it) }
+                        .firstOrNull()
+                        ?.let { NextVertex(it, d, listOf(it)) }
+                    val second = first
+                        ?.let {
+                            graph.outgoingEdgesOf(first.vertex).filter { it.direction == d }
+                                .map { graph.getEdgeTarget(it) }.firstOrNull()
+                        }
+                        ?.let { NextVertex(it, d, first.path.plus(it)) }
+                    val third = second
+                        ?.let {
+                            graph.outgoingEdgesOf(second.vertex).filter { it.direction == d }
+                                .map { graph.getEdgeTarget(it) }.firstOrNull()
+                        }
+                        ?.let { NextVertex(it, d, second.path.plus(it)) }
+                    listOf(first, second, third)
+                }
+                .filterNotNull()
+        }
+        val path = spc.getPath(blocks[start]!!, blocks[end]!!)
+        println(cityToString(path.vertexList.map { it.coordinate }))
+        return path.weight.toInt()
+    }
+
+    fun calculateUltraMinHeatLoss(): Int {
+        val spc = ShortestPathWithConstraint(graph) { vertex, enteringDirection ->
+            enteringDirection
+                .orthogonal()
+                .flatMap { d ->
+                    var start: CityBlock? = vertex
+                    val steps = (1..10)
+                        .map { i ->
+                            val dest = start
+                                ?.let { graph.outgoingEdgesOf(start)
+                                    .filter { it.direction == d }
+                                    .map { graph.getEdgeTarget(it) }
+                                    .firstOrNull()
+                                }
+                            start = dest
+                            i to dest
+                        }
+                    (4..10)
+                        .mapNotNull { i ->
+                            val steps = steps.filter { it.first <= i }.mapNotNull { it.second }
+                            if (steps.size != i) null
+                            else NextVertex(steps.first(), d, steps)
+                        }
+                }
+        }
         val path = spc.getPath(blocks[start]!!, blocks[end]!!)
         println(cityToString(path.vertexList.map { it.coordinate }))
         return path.weight.toInt()

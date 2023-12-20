@@ -1,7 +1,6 @@
 package me.sivieri.aoc2023.day17.graph
 
 import me.sivieri.aoc2023.common.Direction
-import me.sivieri.aoc2023.common.getOtherVertex
 import me.sivieri.aoc2023.day17.CityBlock
 import org.jgrapht.GraphPath
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
@@ -9,7 +8,8 @@ import org.jgrapht.graph.SimpleDirectedGraph
 import java.util.*
 
 class ShortestPathWithConstraint(
-    private val graph: SimpleDirectedGraph<CityBlock, DirectionalEdge>
+    private val graph: SimpleDirectedGraph<CityBlock, DirectionalEdge>,
+    private val findNeighbors: (CityBlock, Direction) -> List<NextVertex>
 ): ShortestPathAlgorithm<CityBlock, DirectionalEdge> {
     override fun getPaths(source: CityBlock): ShortestPathAlgorithm.SingleSourcePaths<CityBlock, DirectionalEdge> = throw NotImplementedError("Unavailable")
 
@@ -29,7 +29,7 @@ class ShortestPathWithConstraint(
             println("Queue size: ${queue.size}")
             if (queue.peek().vertex == sink) break
             val top = queue.remove()
-            val nextVertices = findNextVertices(top.vertex, top.enteringDirection)
+            val nextVertices = findNeighbors(top.vertex, top.enteringDirection)
             nextVertices.forEach { (other, direction, path) ->
                 val newCost = top.weight + path.sumOf { it.heatLoss }
                 val visitedCityBlock = VisitedCityBlock(other, direction)
@@ -47,25 +47,5 @@ class ShortestPathWithConstraint(
         }
         return queue.remove()
     }
-
-    private fun findNextVertices(vertex: CityBlock, enteringDirection: Direction): List<NextVertex> =
-        enteringDirection
-            .orthogonal()
-            .flatMap { d ->
-                val first = graph
-                    .outgoingEdgesOf(vertex)
-                    .filter { it.direction == d }
-                    .map { graph.getEdgeTarget(it) }
-                    .firstOrNull()
-                    ?.let { NextVertex(it, d, listOf(it)) }
-                val second = first
-                    ?.let { graph.outgoingEdgesOf(first.vertex).filter { it.direction == d }.map { graph.getEdgeTarget(it) }.firstOrNull() }
-                    ?.let { NextVertex(it, d, first.path.plus(it)) }
-                val third = second
-                ?.let { graph.outgoingEdgesOf(second.vertex).filter { it.direction == d }.map { graph.getEdgeTarget(it) }.firstOrNull() }
-                ?.let { NextVertex(it, d, second.path.plus(it)) }
-                listOf(first, second, third)
-            }
-            .filterNotNull()
 
 }
