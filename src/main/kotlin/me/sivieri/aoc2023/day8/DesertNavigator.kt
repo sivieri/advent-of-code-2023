@@ -4,13 +4,13 @@ import me.sivieri.aoc2023.common.Math.lcm
 
 class DesertNavigator(data: String) {
 
-    private val directions: Array<Direction>
+    private val desertDirections: Array<DesertDirection>
     private val root: MapInstruction?
     private val nodes: Map<String, MapInstruction>
 
     init {
         val (directions, map) = data.split("\n\n")
-        this.directions = directions.map { if (it == 'L') Direction.LEFT else Direction.RIGHT }.toTypedArray()
+        this.desertDirections = directions.map { if (it == 'L') DesertDirection.LEFT else DesertDirection.RIGHT }.toTypedArray()
         val lines = map
             .split("\n")
             .filter { it.isNotBlank() }
@@ -41,9 +41,9 @@ class DesertNavigator(data: String) {
         var result = 0
         var current = root
         while (!endFunction(current.value)) {
-            current = if (directions[i] == Direction.LEFT) current.left!!
+            current = if (desertDirections[i] == DesertDirection.LEFT) current.left!!
             else current.right!!
-            i = (i + 1) % directions.size
+            i = (i + 1) % desertDirections.size
             result++
         }
         return result
