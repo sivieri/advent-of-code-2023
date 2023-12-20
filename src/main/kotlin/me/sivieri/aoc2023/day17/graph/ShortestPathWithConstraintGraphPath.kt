@@ -10,13 +10,13 @@ class ShortestPathWithConstraintGraphPath(
 ): GraphPath<CityBlock, DirectionalEdge> {
     override fun getGraph(): Graph<CityBlock, DirectionalEdge> = graph
 
-    override fun getStartVertex(): CityBlock = vertexAccumulator.vertices.first().block
+    override fun getStartVertex(): CityBlock = vertexAccumulator.vertices.first()
 
-    override fun getEndVertex(): CityBlock = vertexAccumulator.vertices.last().block
+    override fun getEndVertex(): CityBlock = vertexAccumulator.vertices.last()
 
     override fun getEdgeList(): MutableList<DirectionalEdge> = throw NotImplementedError("Unsupported")
 
-    override fun getVertexList(): MutableList<CityBlock> = vertexAccumulator.vertices.map { it.block }.toMutableList()
+    override fun getVertexList(): MutableList<CityBlock> = vertexAccumulator.vertices.toMutableList()
 
     override fun getWeight(): Double = vertexAccumulator.weight.toDouble()
 }

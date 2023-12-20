@@ -3,7 +3,6 @@ package me.sivieri.aoc2023.day17
 import me.sivieri.aoc2023.common.Coordinate2D
 import me.sivieri.aoc2023.common.Direction
 import me.sivieri.aoc2023.day17.graph.DirectionalEdge
-import me.sivieri.aoc2023.day17.graph.PathAccumulator
 import me.sivieri.aoc2023.day17.graph.ShortestPathWithConstraint
 import org.jgrapht.graph.SimpleDirectedGraph
 
@@ -53,12 +52,7 @@ class CityMap(input: String) {
     }
 
     fun calculateMinHeatLoss(): Int {
-        val spc = ShortestPathWithConstraint(
-            graph,
-            { edge, cost -> cost.add(edge.direction) },
-            { cost -> cost.check() },
-            PathAccumulator()
-        )
+        val spc = ShortestPathWithConstraint(graph)
         val path = spc.getPath(blocks[start]!!, blocks[end]!!)
         println(cityToString(path.vertexList.map { it.coordinate }))
         return path.weight.toInt()

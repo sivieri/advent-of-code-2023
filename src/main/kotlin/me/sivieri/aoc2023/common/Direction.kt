@@ -6,10 +6,10 @@ enum class Direction {
     LEFT,
     RIGHT;
 
-    fun opposite(): Direction = when (this) {
-        UP -> DOWN
-        DOWN -> UP
-        LEFT -> RIGHT
-        RIGHT -> LEFT
+    fun orthogonal(): List<Direction> = when (this) {
+        UP -> listOf(LEFT, RIGHT)
+        DOWN -> listOf(LEFT, RIGHT)
+        LEFT -> listOf(UP, DOWN)
+        RIGHT -> listOf(UP, DOWN)
     }
 }
