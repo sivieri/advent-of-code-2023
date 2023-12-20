@@ -19,19 +19,22 @@ class ShortestPathWithConstraint(
     override fun getPathWeight(source: CityBlock, sink: CityBlock): Double = findThePath(source, sink).weight.toDouble()
 
     private fun findThePath(source: CityBlock, sink: CityBlock): VertexAccumulator {
-        val visited = mutableMapOf<CityBlock, Boolean>()
+        val visited = mutableMapOf<VisitedCityBlock, Int>()
+        visited[VisitedCityBlock(source, Direction.RIGHT)] = 0
+        visited[VisitedCityBlock(source, Direction.DOWN)] = 0
         val queue = PriorityQueue<VertexAccumulator>()
         queue.add(VertexAccumulator(source, 0, emptyList(), Direction.RIGHT))
         queue.add(VertexAccumulator(source, 0, emptyList(), Direction.DOWN))
-        var found = false
-        while (queue.size > 0 && !found) {
+        while (queue.size > 0) {
             println("Queue size: ${queue.size}")
+            if (queue.peek().vertex == sink) break
             val top = queue.remove()
-            if (top.vertex != source && visited.getOrDefault(top.vertex, false)) continue
-            visited[top.vertex] = true
             val nextVertices = findNextVertices(top.vertex, top.enteringDirection)
             nextVertices.forEach { (other, direction, path) ->
-                if (!visited.getOrDefault(other, false)) {
+                val newCost = top.weight + path.sumOf { it.heatLoss }
+                val visitedCityBlock = VisitedCityBlock(other, direction)
+                if (visitedCityBlock !in visited.keys || newCost < visited[visitedCityBlock]!!) {
+                    visited[visitedCityBlock] = newCost
                     val vcw = VertexAccumulator(
                         other,
                         top.weight + path.sumOf { it.heatLoss },
@@ -39,12 +42,10 @@ class ShortestPathWithConstraint(
                         direction
                     )
                     queue.add(vcw)
-                    if (other == sink) found = true
                 }
             }
         }
-        if (!found) throw IllegalStateException("Unable to find a path between $source and $sink")
-        return queue.toList().find { it.vertex == sink }!!
+        return queue.remove()
     }
 
     private fun findNextVertices(vertex: CityBlock, enteringDirection: Direction): List<NextVertex> =
