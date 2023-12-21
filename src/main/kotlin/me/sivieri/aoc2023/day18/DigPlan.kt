@@ -2,9 +2,7 @@ package me.sivieri.aoc2023.day18
 
 import me.sivieri.aoc2023.common.Coordinate2D
 import me.sivieri.aoc2023.common.Direction
-import me.sivieri.aoc2023.common.stringRepresentation
 import me.sivieri.aoc2023.common.toPolygon
-import me.sivieri.aoc2023.day10.PipeMaze
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 
@@ -47,6 +45,41 @@ class DigPlan(input: List<String>) {
             }
         }
         return site.sumOf { it.count { it == DUG } }
+    }
+
+    fun countExtendedDigSpace(): Long {
+        val coordinates = mutableListOf<Coordinate2D>()
+        var cur = Coordinate2D(0, 0)
+        coordinates.add(cur)
+        instructions.map { it.extendedInstruction() }.forEach { i ->
+            (1..i.meters).forEach { _ ->
+                cur = when (i.direction) {
+                    Direction.UP -> Coordinate2D(cur.x, cur.y - 1)
+                    Direction.DOWN -> Coordinate2D(cur.x, cur.y + 1)
+                    Direction.LEFT -> Coordinate2D(cur.x - 1, cur.y)
+                    Direction.RIGHT -> Coordinate2D(cur.x + 1, cur.y)
+                }
+                coordinates.add(cur)
+            }
+        }
+        val minX = coordinates.minOf { it.x }
+        val minY = coordinates.minOf { it.y }
+        val final = coordinates
+            .map { Coordinate2D(it.x - minX, it.y - minY) }
+            .toMutableList()
+        val maxX = final.maxOf { it.x }
+        val maxY = final.maxOf { it.y }
+        var result = final.size.toLong()
+        println("Before filling: $maxX, $maxY, $result")
+        val polygon = final.toPolygon()
+        (0..maxY).forEach { y ->
+            (0..maxX).forEach{ x ->
+                if (x % 100 == 0 && y % 100 == 0) println("Coordinate ($x, $y)")
+                if (polygon.contains(geometryFactory.createPoint(Coordinate(x.toDouble(), y.toDouble()))))
+                    result++
+            }
+        }
+        return result
     }
 
     companion object {

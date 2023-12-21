@@ -8,6 +8,18 @@ data class DigInstruction(
     val meters: Int,
     val color: String
 ) {
+    fun extendedInstruction(): DigInstruction {
+        val meters = color.substring(1, 6).toInt(radix = 16)
+        val direction = when(color[6]) {
+            '0' -> Direction.RIGHT
+            '1' -> Direction.DOWN
+            '2' -> Direction.LEFT
+            '3' -> Direction.UP
+            else -> throw IllegalArgumentException("No direction ${color[5]}")
+        }
+        return DigInstruction(direction, meters, "")
+    }
+
     companion object {
         fun fromString(input: String): DigInstruction {
             val (dir, m, c) = input.split(" ")

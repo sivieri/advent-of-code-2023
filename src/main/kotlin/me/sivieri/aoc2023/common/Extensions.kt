@@ -89,6 +89,10 @@ internal suspend fun <K, V, R> Map<K, V>.pmap(f: suspend (Map.Entry<K, V>) -> R)
     map { async { f(it) } }.awaitAll()
 }
 
+internal suspend fun <T, R> List<T>.pmap(f: suspend (T) -> R): List<R> = coroutineScope {
+    map { async { f(it) } }.awaitAll()
+}
+
 internal fun String.halve(): Pair<String, String> {
     val additionalOne = if (this.length % 2 == 0) 0 else 1
     return Pair(
