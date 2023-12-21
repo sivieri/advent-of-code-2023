@@ -21,6 +21,20 @@ class RuleTest {
     }
 
     @Test
+    fun `parse gte`() {
+        val s = "x>=10:A"
+        val r = GreaterThanOrEqualsRule('x', 10, "A")
+        assertThat(Rule.parse(s), `is`(r))
+    }
+
+    @Test
+    fun `parse lte`() {
+        val s = "x<=10:A"
+        val r = LessThanOrEqualsRule('x', 10, "A")
+        assertThat(Rule.parse(s), `is`(r))
+    }
+
+    @Test
     fun `parse destination`() {
         val s = "A"
         val r = DestinationRule("A")

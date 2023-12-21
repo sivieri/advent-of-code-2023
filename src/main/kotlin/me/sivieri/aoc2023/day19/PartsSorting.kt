@@ -13,7 +13,7 @@ class PartsSorting(input: String) {
 
     fun sumRatingsOfAccepted(): Int = parts
         .filter { part ->
-            var destination = workflows[Workflow.BEGINNING_LABEL]!!.findDestination(part)
+            var destination = workflows[BEGINNING_LABEL]!!.findDestination(part)
             while (destination !in listOf(ACCEPTED, REJECTED)) {
                 destination = workflows[destination]!!.findDestination(part)
             }
@@ -21,9 +21,23 @@ class PartsSorting(input: String) {
         }
         .sumOf { it.rating() }
 
+    fun findTotalCombinations(): Long {
+        val data = workflows
+            .values
+            .filter { it.rules.any { it.destination == ACCEPTED } }
+            .flatMap { w ->
+
+                emptyList<List<Rule>>()
+            }
+        TODO()
+    }
+
     companion object {
+        const val BEGINNING_LABEL = "in"
         private const val ACCEPTED = "A"
         private const val REJECTED = "R"
+        private const val MIN_ATTR = 1
+        private const val MAX_ATTR = 4000
     }
 
 }
