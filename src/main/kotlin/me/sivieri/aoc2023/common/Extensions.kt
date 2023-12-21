@@ -4,6 +4,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.jgrapht.Graph
+import org.locationtech.jts.geom.Coordinate
+import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.geom.Polygon
 import java.util.*
 import java.util.Collections.swap
 
@@ -132,3 +135,6 @@ internal fun <T> List<T>.repeat(n: Int): List<T> = (1..n).fold(this) { acc, _ ->
 }
 
 internal fun Pair<Int, Int>.sum() = this.first + this.second
+
+internal fun List<Coordinate2D>.toPolygon(): Polygon = GeometryFactory()
+    .createPolygon(this.plus(this.first()).map { Coordinate(it.x.toDouble(), it.y.toDouble()) }.toTypedArray())

@@ -1,6 +1,7 @@
 package me.sivieri.aoc2023.day10
 
 import me.sivieri.aoc2023.common.Coordinate2D
+import me.sivieri.aoc2023.common.toPolygon
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Point
@@ -93,9 +94,6 @@ class PipeMaze(data: String, startSymbol: Char) {
                 maze[Coordinate2D(x, y)]!!.toString()
             }
         }
-
-        internal fun List<Coordinate2D>.toPolygon(): Polygon = GeometryFactory()
-            .createPolygon(this.plus(this.first()).map { Coordinate(it.x.toDouble(), it.y.toDouble()) }.toTypedArray())
     }
 
 }
