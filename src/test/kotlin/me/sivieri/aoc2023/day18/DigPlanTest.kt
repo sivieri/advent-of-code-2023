@@ -2,7 +2,6 @@ package me.sivieri.aoc2023.day18
 
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.junit.Ignore
 import org.junit.Test
 
 class DigPlanTest {
@@ -31,7 +30,6 @@ class DigPlanTest {
     }
 
     @Test
-    @Ignore
     fun `part 2 example`() {
         val input = """
             R 6 (#70c710)
