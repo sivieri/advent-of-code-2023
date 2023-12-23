@@ -1,6 +1,7 @@
 package me.sivieri.aoc2023.day19
 
 import me.sivieri.aoc2023.common.zipWithIndex
+import java.lang.IllegalArgumentException
 
 data class Workflow(
     val name: String,
@@ -20,6 +21,33 @@ data class Workflow(
                     .plus(r)
                     .filter { it !is DestinationRule }
             }
+    }
+
+    fun findPaths(): List<Path> {
+        val rulesIndexed = rules
+            .zipWithIndex { it }
+        val prepared = rulesIndexed
+            .map { (index, r) ->
+                rulesIndexed
+                    .filter { it.first < index }
+                    .map { it.second.opposite() }
+                    .plus(r)
+            }
+        return prepared.map { rules ->
+            val label = rules.last().destination
+            val conditions = rules
+                .filter { it !is DestinationRule }
+                .map { rule ->
+                    when (rule) {
+                        is LessThanRule -> LessThanCondition(rule.attr, rule.value)
+                        is LessThanOrEqualsRule -> LessThanOrEqualsCondition(rule.attr, rule.value)
+                        is GreaterThanRule -> GreaterThanCondition(rule.attr, rule.value)
+                        is GreaterThanOrEqualsRule -> GreaterThanOrEqualsCondition(rule.attr, rule.value)
+                        else -> throw IllegalArgumentException("No destination here")
+                    }
+                }
+            Path(label, conditions, name)
+        }
     }
 
     companion object {

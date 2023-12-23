@@ -22,22 +22,34 @@ class PartsSorting(input: String) {
         .sumOf { it.rating() }
 
     fun findTotalCombinations(): Long {
-        val data = workflows
+        val paths = workflows
             .values
-            .filter { it.rules.any { it.destination == ACCEPTED } }
-            .flatMap { w ->
-
-                emptyList<List<Rule>>()
+            .flatMap { it.findPaths() }
+            .filter { it.label != REJECTED }
+            .groupBy { it.label }
+        var accepted = paths[ACCEPTED]!!
+        while (!accepted.all { it.component == BEGINNING_LABEL }) {
+            accepted = accepted.flatMap { path ->
+                if (path.component != BEGINNING_LABEL) path.addComponentRules(paths[path.component]!!)
+                else listOf(path)
             }
-        TODO()
+        }
+        val data = accepted
+            .map {
+                ConditionsResult(
+                    it.findValidValues('x'),
+                    it.findValidValues('m'),
+                    it.findValidValues('a'),
+                    it.findValidValues('s')
+                )
+            }
+        return data.map { it.rating() }.sum()
     }
 
     companion object {
         const val BEGINNING_LABEL = "in"
         private const val ACCEPTED = "A"
         private const val REJECTED = "R"
-        private const val MIN_ATTR = 1
-        private const val MAX_ATTR = 4000
     }
 
 }

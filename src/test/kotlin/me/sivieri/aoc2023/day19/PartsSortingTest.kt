@@ -34,7 +34,6 @@ class PartsSortingTest {
     }
 
     @Test
-    @Ignore
     fun `part 2 example`() {
         val input = """
             px{a<2006:qkq,m>2090:A,rfg}
