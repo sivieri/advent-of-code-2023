@@ -9,6 +9,8 @@ import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Polygon
 import java.util.*
 import java.util.Collections.swap
+import kotlin.math.max
+import kotlin.math.min
 
 internal fun String.toIntList(): List<Int> = this.split(",").map { it.toInt() }
 
@@ -142,3 +144,14 @@ internal fun Pair<Int, Int>.sum() = this.first + this.second
 
 internal fun List<Coordinate2D>.toPolygon(): Polygon = GeometryFactory()
     .createPolygon(this.plus(this.first()).map { Coordinate(it.x.toDouble(), it.y.toDouble()) }.toTypedArray())
+
+internal fun rangeBetween(a: Int, b: Int) = min(a, b) .. max(a, b)
+
+internal fun <T, R> Iterable<T>.foldIndexed(initial: R, operation: (acc: R, Int, T) -> R): R {
+    var accumulator = initial
+    var index = 0
+    for (element in this) {
+        accumulator = operation(accumulator, index++, element)
+    }
+    return accumulator
+}
