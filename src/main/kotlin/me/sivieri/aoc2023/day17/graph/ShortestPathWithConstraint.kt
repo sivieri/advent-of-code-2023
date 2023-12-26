@@ -29,6 +29,7 @@ class ShortestPathWithConstraint(
             println("Queue size: ${queue.size}")
             if (queue.peek().vertex == sink) break
             val top = queue.remove()
+            println("Top coordinate: ${top.vertex.coordinate}")
             val nextVertices = findNeighbors(top.vertex, top.enteringDirection)
             nextVertices.forEach { (other, direction, path) ->
                 val newCost = top.weight + path.sumOf { it.heatLoss }

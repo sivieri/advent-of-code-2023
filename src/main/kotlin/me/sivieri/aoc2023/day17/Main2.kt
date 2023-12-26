@@ -8,7 +8,7 @@ object Main2 {
     fun main(args: Array<String>) {
         val data = Utils.readInput(17)
         val map = CityMap(data)
-        val loss = map.calculateMinHeatLoss()
+        val loss = map.calculateUltraMinHeatLoss()
         println(loss)
     }
 

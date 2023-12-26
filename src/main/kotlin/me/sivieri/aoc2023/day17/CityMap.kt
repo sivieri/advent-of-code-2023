@@ -85,34 +85,40 @@ class CityMap(input: String) {
     }
 
     fun calculateUltraMinHeatLoss(): Int {
-        val spc = ShortestPathWithConstraint(graph) { vertex, enteringDirection ->
-            enteringDirection
-                .orthogonal()
-                .flatMap { d ->
-                    var start: CityBlock? = vertex
-                    val steps = (1..10)
-                        .map { i ->
-                            val dest = start
-                                ?.let { graph.outgoingEdgesOf(start)
-                                    .filter { it.direction == d }
-                                    .map { graph.getEdgeTarget(it) }
-                                    .firstOrNull()
-                                }
-                            start = dest
-                            i to dest
-                        }
-                    (4..10)
-                        .mapNotNull { i ->
-                            val steps = steps.filter { it.first <= i }.mapNotNull { it.second }
-                            if (steps.size != i) null
-                            else NextVertex(steps.first(), d, steps)
-                        }
-                }
-        }
+        val spc = ShortestPathWithConstraint(graph, ::findUltraNeighbors)
         val path = spc.getPath(blocks[start]!!, blocks[end]!!)
         println(cityToString(path.vertexList.map { it.coordinate }))
         return path.weight.toInt()
     }
+
+    fun findUltraNeighbors(
+        vertex: CityBlock,
+        enteringDirection: Direction
+    ) = enteringDirection
+        .orthogonal()
+        .flatMap { d ->
+            var start: CityBlock? = vertex
+            val steps = (1..10)
+                .map { i ->
+                    val dest = start
+                        ?.let {
+                            graph.outgoingEdgesOf(start)
+                                .filter { it.direction == d }
+                                .map { graph.getEdgeTarget(it) }
+                                .firstOrNull()
+                        }
+                    start = dest
+                    i to dest
+                }
+            val neighbors = (4..10)
+                .mapNotNull { i ->
+                    val filtered = steps.filter { it.first <= i }.mapNotNull { it.second }
+                    val first = steps.firstOrNull { it.first == i }?.second
+                    if (filtered.size != i) null
+                    else NextVertex(first!!, d, filtered)
+                }
+            neighbors
+        }
 
     private fun cityToString(coordinates: List<Coordinate2D>): String =
         (0 until maxY)
