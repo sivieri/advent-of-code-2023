@@ -6,7 +6,7 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.DefaultWeightedEdge
 import org.jgrapht.graph.SimpleDirectedGraph
 
-class HikingTrails(input: String) {
+class HikingTrailsNoSlopes(input: String) {
 
     private val trails = input
         .split("\n")
@@ -51,13 +51,12 @@ class HikingTrails(input: String) {
                         Coordinate2D(x, (y + 1).coerceAtMost(maxY - 1))
                     ).minus(c)
                     is Slope -> {
-                        val n = when (b.type) {
-                            SlopeType.LEFT -> Coordinate2D((x - 1).coerceAtLeast(0), y)
-                            SlopeType.RIGHT -> Coordinate2D((x + 1).coerceAtMost(maxX - 1), y)
-                            SlopeType.UP -> Coordinate2D(x, (y - 1).coerceAtLeast(0))
-                            SlopeType.DOWN -> Coordinate2D(x, (y + 1).coerceAtMost(maxY - 1))
-                        }
-                        listOf(n).minus(c)
+                        setOf(
+                            Coordinate2D((x - 1).coerceAtLeast(0), y),
+                            Coordinate2D((x + 1).coerceAtMost(maxX - 1), y),
+                            Coordinate2D(x, (y - 1).coerceAtLeast(0)),
+                            Coordinate2D(x, (y + 1).coerceAtMost(maxY - 1))
+                        ).minus(c)
                     }
                 }
                 neighbors.forEach { n ->
