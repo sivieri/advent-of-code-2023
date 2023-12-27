@@ -43,6 +43,53 @@ class BrickStack(data: List<String>) {
         }
     }
 
+    fun sumFallenBricks(): Int {
+        val settled = settle()
+        bricks.zip(settled).forEach {
+            it as Pair<SandBrick, SandBrick>
+            if (it.first == it.second) println("${it.first.id} (${it.first.end1} ${it.first.end2})")
+            else println("${it.first.id} (${it.first.end1} ${it.first.end2}) -> (${it.second.end1} ${it.second.end2})")
+        }
+        val supporting = settled
+            .map { brick ->
+                brick.identifier to brick.supportedBricks(settled.minus(brick))
+            }.toMap()
+        val supported = supporting
+            .entries
+            .flatMap { p ->
+                p.value.map { Pair(it, p.key) }
+            }
+            .groupBy { it.first }
+            .mapValues { it.value.map { it.second } }
+        val downers = supporting.mapNotNull { (s, others) ->
+            if (others.all { supported[it]!!.size > 1 }) null else s
+        }
+        return downers.sumOf { countFallingBricks(it, supporting, supported) }
+    }
+
+    private fun countFallingBricks(
+        id: Int,
+        allSupporting: Map<Int, List<Int>>,
+        allSupported: Map<Int, List<Int>>
+    ): Int {
+        val queue = ArrayDeque<Int>()
+        queue.add(id)
+        var counter = -1 // do not count $id
+        val support = allSupported.toMutableMap()
+        while (queue.isNotEmpty()) {
+            val e = queue.removeFirst().also { counter++ }
+            allSupporting[e]!!.forEach { s ->
+                support[s] = support[s]!!.minus(e)
+            }
+            val falling = support.filter { it.value.isEmpty() }.keys
+            falling.forEach { f ->
+                support.remove(f)
+                queue.add(f)
+            }
+        }
+        return counter
+    }
+
     private fun settle(): List<Brick> {
         val coordinates = bricks
             .flatMap { it.getCoordinates() }
