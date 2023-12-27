@@ -2,13 +2,11 @@ package me.sivieri.aoc2023.day22
 
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.junit.Ignore
 import org.junit.Test
 
-class SandBrickStackTest {
+class BrickStackTest {
 
     @Test
-    @Ignore
     fun `part 1 example`() {
         val input = """
             1,0,1~1,2,1
@@ -22,6 +20,19 @@ class SandBrickStackTest {
         val stack = BrickStack(input)
         val result = stack.countDisposableBricks()
         assertThat(result, `is`(5))
+    }
+
+    @Test
+    fun `another example`() {
+        val input = """
+            0,0,1~0,0,2
+            1,0,1~2,0,1
+            1,0,2~1,0,2
+            0,0,3~1,0,3
+        """.trimIndent().split("\n")
+        val stack = BrickStack(input)
+        val result = stack.countDisposableBricks()
+        assertThat(result, `is`(3))
     }
 
 }
