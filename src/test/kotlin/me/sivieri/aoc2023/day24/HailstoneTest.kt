@@ -18,7 +18,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, between(7.0, 27.0))
         assertThat(y, between(7.0, 27.0))
-        assertTrue(a.intersectsInFuture(b))
+        assertTrue(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -28,7 +28,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, between(7.0, 27.0))
         assertThat(y, between(7.0, 27.0))
-        assertTrue(a.intersectsInFuture(b))
+        assertTrue(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -38,7 +38,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, not(between(7.0, 27.0)))
         assertThat(y, between(7.0, 27.0))
-        assertTrue(a.intersectsInFuture(b))
+        assertTrue(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -48,7 +48,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, between(7.0, 27.0))
         assertThat(y, between(7.0, 27.0))
-        assertFalse(a.intersectsInFuture(b))
+        assertFalse(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -57,7 +57,7 @@ class HailstoneTest {
         val b = Hailstone(Coordinate3DLong(20, 25, 34), Coordinate3DLong(-2, -2, -4))
         val res = a.intersects2D(b)
         assertNull(res)
-        assertFalse(a.intersectsInFuture(b))
+        assertFalse(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -67,7 +67,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, not(between(7.0, 27.0)))
         assertThat(y, not(between(7.0, 27.0)))
-        assertTrue(a.intersectsInFuture(b))
+        assertTrue(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -77,7 +77,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, between(7.0, 27.0))
         assertThat(y, between(7.0, 27.0))
-        assertFalse(a.intersectsInFuture(b))
+        assertFalse(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -87,7 +87,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, not(between(7.0, 27.0)))
         assertThat(y, not(between(7.0, 27.0)))
-        assertTrue(a.intersectsInFuture(b))
+        assertTrue(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -97,7 +97,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, between(7.0, 27.0))
         assertThat(y, between(7.0, 27.0))
-        assertFalse(a.intersectsInFuture(b))
+        assertFalse(a.intersectsInFuture2D(b))
     }
 
     @Test
@@ -107,7 +107,7 @@ class HailstoneTest {
         val (x, y) = a.intersects2D(b)!!
         assertThat(x, between(7.0, 27.0))
         assertThat(y, not(between(7.0, 27.0)))
-        assertFalse(a.intersectsInFuture(b))
+        assertFalse(a.intersectsInFuture2D(b))
     }
 
 }

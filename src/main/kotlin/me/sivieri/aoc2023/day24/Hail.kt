@@ -10,7 +10,7 @@ class Hail(input: List<String>) {
         .twoCombinations()
         .count { (a, b) ->
             val pair = a.intersects2D(b)
-            val future = a.intersectsInFuture(b)
+            val future = a.intersectsInFuture2D(b)
             future && pair != null && pair.first >= min && pair.first <= max && pair.second >= min && pair.second <= max
         }
 
