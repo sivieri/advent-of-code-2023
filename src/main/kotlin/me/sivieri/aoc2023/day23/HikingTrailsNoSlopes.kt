@@ -71,23 +71,12 @@ class HikingTrailsNoSlopes(input: String) {
     }
 
     fun findLongestPath(): Int {
-        val r = dfs(blocks[start]!!, emptyList(), emptyList())
-        val f = r.filter { it.contains(blocks[end]!!) }
-        return f.maxOf { it.size }
-    }
-
-    private fun dfs(v: HikingTrail, seen: List<HikingTrail>, path: List<HikingTrail>): List<List<HikingTrail>> {
-        val newSeen = seen.plus(v)
-        val others = graph.outgoingEdgesOf(v).map { graph.getEdgeTarget(it) }
-        val paths = mutableListOf<List<HikingTrail>>()
-        others.forEach { t ->
-            if (t !in seen) {
-                val newPath = path.plus(t)
-                paths.add(newPath)
-                paths.addAll(dfs(t, newSeen, newPath))
-            }
-        }
-        return paths.toList()
+        val sp = DijkstraShortestPath(graph)
+        val path = sp.getPath(blocks[start], blocks[end])
+        println("Dijkstra: ${path.length}")
+        val sp2 = AllDirectedPaths(graph)
+        val paths = sp2.getAllPaths(blocks[start], blocks[end], true, null)
+        return paths.maxOf { it.length }
     }
 
 }
