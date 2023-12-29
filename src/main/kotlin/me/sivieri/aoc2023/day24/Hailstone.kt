@@ -41,12 +41,6 @@ data class Hailstone(
         return Lines.fromPointAndDirection(pointAtZero, direction, precision)
     }
 
-    private fun toLine3D(): Line3D {
-        val pointAtZero = Vector3D.of(position.x.toDouble(), position.y.toDouble(), position.z.toDouble())
-        val direction = Vector3D.of(velocity.x.toDouble(), velocity.y.toDouble(), velocity.z.toDouble())
-        return Lines3D.fromPointAndDirection(pointAtZero, direction, precision)
-    }
-
     companion object {
         private val precision = Precision.doubleEquivalenceOfEpsilon(1e-6)
 
