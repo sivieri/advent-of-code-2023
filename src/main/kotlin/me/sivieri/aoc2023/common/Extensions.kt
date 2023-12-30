@@ -7,6 +7,7 @@ import org.jgrapht.Graph
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Polygon
+import org.locationtech.jts.triangulate.tri.Tri
 import java.util.*
 import java.util.Collections.swap
 import kotlin.math.max
@@ -47,6 +48,15 @@ internal fun <A, B> Collection<A>.crossProduct(other: Collection<B>): List<Pair<
 internal fun <T> List<T>.twoCombinations(): List<Pair<T, T>> =
     (0 until this.size).flatMap { i ->
         (i + 1 until this.size).map { j ->  Pair(this[i], this[j]) }
+    }
+
+internal fun <T> List<T>.threeCombinations(): List<Triple<T, T, T>> =
+    (0 until this.size).flatMap { i ->
+        (i + 1 until this.size).flatMap { j ->
+            (j + 1 until this.size).map { k ->
+                Triple(this[i], this[j], this[k])
+            }
+        }
     }
 
 internal fun <T> cartesianProductOfThree(

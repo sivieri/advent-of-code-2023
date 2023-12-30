@@ -67,4 +67,22 @@ class ExtensionsKtTest {
         assertThat(part2, `is`("cc"))
     }
 
+    @Test
+    fun `combinations of triples`() {
+        val list = listOf(1, 2, 3, 4, 5)
+        val expected = listOf(
+            Triple(1, 2, 3),
+            Triple(1, 2, 4),
+            Triple(1, 2, 5),
+            Triple(1, 3, 4),
+            Triple(1, 3, 5),
+            Triple(1, 4, 5),
+            Triple(2, 3, 4),
+            Triple(2, 3, 5),
+            Triple(2, 4, 5),
+            Triple(3, 4, 5)
+        )
+        assertThat(list.threeCombinations(), `is`(expected))
+    }
+
 }
